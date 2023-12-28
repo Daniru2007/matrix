@@ -20,8 +20,11 @@ void print_drops() {
   int max_y;
   getmaxyx(stdscr, max_y, max_x);
   for (int i = 0; i < 2000; i++) {
-    for (int l = 0; l < droplets[i].amount; l++) {
-      mvprintw(droplets[i].y - l, droplets[i].x, "$");
+    attron(A_BOLD | A_UNDERLINE);
+    mvprintw(droplets[i].y, droplets[i].x, "#");
+    attroff(A_BOLD | A_UNDERLINE);
+    for (int l = 1; l < droplets[i].amount; l++) {
+      mvprintw(droplets[i].y - l, droplets[i].x, "*");
     }
     int rand_x = random() % 5 + 1;
     int rand_y = -(random() % 500 + 1);
@@ -63,18 +66,18 @@ int main(int argc, char *argv[]) {
   start_color();
   use_default_colors();
   init_pair(1, COLOR_GREEN, -1);
-  init_pair(2, COLOR_RED, -1);
-  attron(COLOR_PAIR(1));
+  init_pair(2, COLOR_CYAN, -1);
+  attron(COLOR_PAIR(2));
   while (true) {
     input = getch();
     if (input == 113 || input == 3) {
       break;
     }
     print_drops();
-    usleep(80000);
+    usleep(60000);
   }
 
-  attroff(COLOR_PAIR(1));
+  attroff(COLOR_PAIR(2));
 
   refresh();
   endwin();
