@@ -11,14 +11,15 @@ struct drops {
   int amount;
 };
 
-struct drops droplets[1000];
+struct drops droplets[2000];
 
 void print_drops() {
+  erase();
   srandom(time(NULL));
   int max_x;
   int max_y;
   getmaxyx(stdscr, max_y, max_x);
-  for (int i = 0; i < 1000; i++) {
+  for (int i = 0; i < 2000; i++) {
     for (int l = 0; l < droplets[i].amount; l++) {
       mvprintw(droplets[i].y - l, droplets[i].x, "$");
     }
@@ -42,7 +43,7 @@ void init() {
   raw();
   nodelay(stdscr, TRUE);
   mousemask(ALL_MOUSE_EVENTS, NULL);
-  for (int i = 0; i < 1000; i++) {
+  for (int i = 0; i < 2000; i++) {
     int max_x = getmaxx(stdscr);
     int rand_x = random() % max_x + 1;
     int rand_amount = random() % 10 + 1;
@@ -51,7 +52,6 @@ void init() {
     droplets[i].y = rand_y;
     droplets[i].amount = rand_amount;
   }
-  getch();
 }
 
 int main(int argc, char *argv[]) {
@@ -71,8 +71,6 @@ int main(int argc, char *argv[]) {
       break;
     }
     print_drops();
-    refresh();
-    clear();
     usleep(80000);
   }
 
