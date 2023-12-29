@@ -14,6 +14,9 @@ typedef struct drops {
 struct drops *droplets;
 int num_drops = 2000;
 int start_x = 0, start_y = 0;
+char *drop_styles[12] = {
+    "#", "@", "%", "$", "&", "*", "+", "=", "-", "!", "|", ".",
+};
 
 void print_drops() {
   erase();
@@ -22,11 +25,8 @@ void print_drops() {
   int max_y;
   getmaxyx(stdscr, max_y, max_x);
   for (int i = 0; i < num_drops; i++) {
-    attron(A_BOLD | A_UNDERLINE);
-    mvprintw(droplets[i].y, droplets[i].x, "#");
-    attroff(A_BOLD | A_UNDERLINE);
-    for (int l = 1; l < droplets[i].amount; l++) {
-      mvprintw(droplets[i].y - l, droplets[i].x, "*");
+    for (int l = 0; l < droplets[i].amount; l++) {
+      mvprintw(droplets[i].y - l, droplets[i].x, "%s", drop_styles[l]);
     }
     int rand_x = random() % max_x + 1;
     int rand_y = -(random() % 500 + 1);
@@ -54,12 +54,12 @@ void init() {
   int max_x;
   int max_y;
   getmaxyx(stdscr, max_y, max_x);
-  num_drops = max_x * 20;
+  num_drops = max_x * 25;
   droplets = calloc(num_drops, sizeof(drops));
   for (int i = 0; i < num_drops; i++) {
     int max_x = getmaxx(stdscr);
     int rand_x = random() % max_x + 1;
-    int rand_amount = random() % 10 + 1;
+    int rand_amount = random() % 12 + 1;
     int rand_y = -(random() % 500 + 1);
     droplets[i].x = rand_x;
     droplets[i].y = rand_y;
