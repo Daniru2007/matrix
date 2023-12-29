@@ -5,13 +5,14 @@
 #include <time.h>
 #include <unistd.h>
 
-struct drops {
+typedef struct drops {
   int x;
   int y;
   int amount;
-};
+} drops;
 
-struct drops droplets[2000];
+struct drops *droplets;
+int num_drops = 2000;
 
 void print_drops() {
   erase();
@@ -19,7 +20,7 @@ void print_drops() {
   int max_x;
   int max_y;
   getmaxyx(stdscr, max_y, max_x);
-  for (int i = 0; i < 2000; i++) {
+  for (int i = 0; i < num_drops; i++) {
     attron(A_BOLD | A_UNDERLINE);
     mvprintw(droplets[i].y, droplets[i].x, "#");
     attroff(A_BOLD | A_UNDERLINE);
@@ -46,7 +47,13 @@ void init() {
   raw();
   nodelay(stdscr, TRUE);
   mousemask(ALL_MOUSE_EVENTS, NULL);
-  for (int i = 0; i < 2000; i++) {
+  int max_x;
+  int max_y;
+  getmaxyx(stdscr, max_y, max_x);
+  num_drops = max_x * 20;
+  droplets = calloc(num_drops, sizeof(drops));
+  printf("%d", num_drops);
+  for (int i = 0; i < num_drops; i++) {
     int max_x = getmaxx(stdscr);
     int rand_x = random() % max_x + 1;
     int rand_amount = random() % 10 + 1;
