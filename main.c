@@ -73,11 +73,47 @@ int main(int argc, char *argv[]) {
   start_color();
   use_default_colors();
   init_pair(1, COLOR_GREEN, -1);
-  init_pair(2, COLOR_CYAN, -1);
-  attron(COLOR_PAIR(2));
+  init_pair(2, COLOR_BLUE, -1);
+  init_pair(3, COLOR_CYAN, -1);
+  init_pair(4, COLOR_RED, -1);
+  init_pair(5, COLOR_WHITE, -1);
+  init_pair(6, COLOR_MAGENTA, -1);
+  init_pair(7, COLOR_YELLOW, -1);
+  int color = 2;
+  int delay = 60000;
   while (true) {
+    attron(COLOR_PAIR(color));
     input = getch();
-    if (input == 113 || input == 3) {
+    if (input == 113 || input == (int)'q') {
+      break;
+    } else if (input == (int)'f') {
+      if (delay > 10000) {
+        delay -= 1000;
+      }
+    } else if (input == (int)'F') {
+      delay += 1000;
+    }
+    switch (input) {
+    case (int)'g':
+      color = 1;
+      break;
+    case (int)'b':
+      color = 2;
+      break;
+    case (int)'c':
+      color = 3;
+      break;
+    case (int)'r':
+      color = 4;
+      break;
+    case (int)'w':
+      color = 5;
+      break;
+    case (int)'m':
+      color = 6;
+      break;
+    case (int)'y':
+      color = 7;
       break;
     }
 
@@ -94,10 +130,9 @@ int main(int argc, char *argv[]) {
     }
 
     print_drops();
-    usleep(60000);
+    usleep(delay);
+    attroff(COLOR_PAIR(color));
   }
-
-  attroff(COLOR_PAIR(2));
 
   refresh();
   endwin();
