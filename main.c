@@ -13,6 +13,7 @@ typedef struct drops {
 
 struct drops *droplets;
 int num_drops = 2000;
+int start_x = 0, start_y = 0;
 
 void print_drops() {
   erase();
@@ -52,7 +53,6 @@ void init() {
   getmaxyx(stdscr, max_y, max_x);
   num_drops = max_x * 20;
   droplets = calloc(num_drops, sizeof(drops));
-  printf("%d", num_drops);
   for (int i = 0; i < num_drops; i++) {
     int max_x = getmaxx(stdscr);
     int rand_x = random() % max_x + 1;
@@ -80,6 +80,19 @@ int main(int argc, char *argv[]) {
     if (input == 113 || input == 3) {
       break;
     }
+
+    int max_x;
+    int max_y;
+    getmaxyx(stdscr, max_y, max_x);
+    if (start_x != max_x || start_y != max_y) {
+      start_x = max_x;
+      start_y = max_y;
+      free(droplets);
+      erase();
+      refresh();
+      init();
+    }
+
     print_drops();
     usleep(60000);
   }
