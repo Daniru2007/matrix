@@ -28,12 +28,15 @@ void print_drops() {
     for (int l = 1; l < droplets[i].amount; l++) {
       mvprintw(droplets[i].y - l, droplets[i].x, "*");
     }
-    int rand_x = random() % 5 + 1;
+    int rand_x = random() % max_x + 1;
     int rand_y = -(random() % 500 + 1);
+    int rand_amount = random() % 10 + 1;
     // droplets[i].x += rand_x;
     droplets[i].y += 1;
     if (droplets[i].y - droplets[i].amount >= max_y) {
       droplets[i].y = rand_y;
+      droplets[i].x = rand_x;
+      droplets[i].amount = rand_amount;
     }
   }
   refresh();
