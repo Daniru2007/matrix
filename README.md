@@ -6,5 +6,5 @@ So decided to make this :)
 ## Installation
 
 Just add the matrix file to your path 
-`eg. cp matrix /usr/bin/matrix`
+`cp matrix /usr/bin/matrix`
 
